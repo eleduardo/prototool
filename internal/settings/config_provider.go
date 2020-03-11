@@ -332,6 +332,16 @@ func externalConfigToConfig(develMode bool, e ExternalConfig, dirPath string) (C
 		}
 	}
 
+
+	linterPlugins := make([]LinterPlugin, len(e.Lint.Modules), len(e.Lint.Modules))
+	for i, module := range e.Lint.Modules{
+		linter := LinterPlugin{
+			path:          module.Path,
+			configuration: module.Parameters,
+		}
+		linterPlugins[i] = linter
+	}
+
 	config := Config{
 		DirPath:         dirPath,
 		ExcludePrefixes: excludePrefixes,
@@ -353,6 +363,7 @@ func externalConfigToConfig(develMode bool, e ExternalConfig, dirPath string) (C
 			FileHeader:          fileHeader,
 			JavaPackagePrefix:   e.Lint.JavaPackagePrefix,
 			AllowSuppression:    e.Lint.AllowSuppression,
+			LinterPlugins: 		 linterPlugins,
 		},
 		Break: BreakConfig{
 			IncludeBeta:   e.Break.IncludeBeta,

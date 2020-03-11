@@ -209,6 +209,16 @@ type LintConfig struct {
 	JavaPackagePrefix string
 	// AllowSuppression says to honor @suppresswarnings annotations.
 	AllowSuppression bool
+
+	LinterPlugins []LinterPlugin
+}
+
+type LinterPlugin struct {
+	// Location to load the plugin from
+	path string
+
+	//parameters to configure the plugin
+	configuration map[string]string
 }
 
 // BreakConfig is the break config.
@@ -323,6 +333,10 @@ type ExternalConfig struct {
 		JavaPackagePrefix string `json:"java_package_prefix,omitempty" yaml:"java_package_prefix,omitempty"`
 		// devel-mode only
 		AllowSuppression bool `json:"allow_suppression,omitempty" yaml:"allow_suppression,omitempty"`
+		Modules []struct {
+			Path string `json:"path,omitempty" yaml:"path,omitempty"`
+			Parameters  map[string]string `json:"parameters,omitempty" yaml:"paremeters,omitempty"`
+		}
 	} `json:"lint,omitempty" yaml:"lint,omitempty"`
 	Break struct {
 		IncludeBeta   bool `json:"include_beta,omitempty" yaml:"include_beta,omitempty"`
